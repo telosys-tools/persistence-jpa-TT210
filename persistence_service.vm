@@ -97,4 +97,11 @@ public interface ${entity.name}Persistence {
 	 * @return
 	 */
 	public List<${entity.name}> search( Map<String, Object> criteria ) ;
+
+	/**
+	 * Count all the occurrences
+	 * @return
+	 */
+	public long countAll();
+	
 }

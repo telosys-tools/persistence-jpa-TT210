@@ -16,11 +16,16 @@ package ${target.javaPackageFromFolder($SRC)};
 import $import;
 #end
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+
 import $entity.fullName ;
 #if ( $entity.hasCompositePrimaryKey() )
 import ${entity.fullName}Key ;
 #end
 import ${ROOT_PKG}.persistence.commons.jpa.GenericJpaService;
+import ${ROOT_PKG}.persistence.commons.jpa.JpaOperation;
 import ${ROOT_PKG}.persistence.services.${entity.name}Persistence;
 
 /**
@@ -38,6 +43,7 @@ public class ${entity.name}PersistenceJPA extends GenericJpaService<${entity.nam
 		super(${entity.name}.class);
 	}
 
+	@Override
 	public ${entity.name} load( $fn.argumentsListWithType( $entity.keyAttributes ) ) {
 #if ( $entity.hasCompositePrimaryKey() )
 		// Build the composite key
@@ -48,6 +54,7 @@ public class ${entity.name}PersistenceJPA extends GenericJpaService<${entity.nam
 #end	
 	}
 
+	@Override
 	public boolean delete( $fn.argumentsListWithType( $entity.keyAttributes ) ) {
 #if ( $entity.hasCompositePrimaryKey() )
 		// Build the composite key
@@ -58,6 +65,7 @@ public class ${entity.name}PersistenceJPA extends GenericJpaService<${entity.nam
 #end	
 	}
 
+	@Override
 	public boolean delete(${entity.name} entity) {
 		if ( entity != null ) {
 #if ( $entity.hasCompositePrimaryKey() )
@@ -69,6 +77,20 @@ public class ${entity.name}PersistenceJPA extends GenericJpaService<${entity.nam
 #end	
 		}
 		return false ;
+	}
+
+	@Override
+	public long countAll() {
+		// JPA operation definition 
+		JpaOperation operation = new JpaOperation() {
+			@Override
+			public Object exectue(EntityManager em) throws PersistenceException {
+				Query query = em.createNamedQuery("${entity.name}.countAll");
+				return query.getSingleResult() ;
+			}
+		} ;
+		// JPA operation execution 
+		return (Long) execute(operation);
 	}
 
 }
