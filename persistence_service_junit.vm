@@ -45,6 +45,15 @@ public class ${entity.name}PersistenceTest
 	@Test
 	public void test1() {
 		
+		System.out.println("Test count ..." );
+		
+		${entity.name}Persistence service = PersistenceServiceProvider.getService(${entity.name}Persistence.class);
+		System.out.println("CountAll = " + service.countAll() );
+	}
+	
+	@Test
+	public void test2() {
+		
 		System.out.println("Test ${entity.name} persistence : delete + load ..." );
 		
 		${entityPersistenceClass} service = PersistenceServiceProvider.getService(${entityPersistenceClass}.class);
