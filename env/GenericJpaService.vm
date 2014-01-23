@@ -55,7 +55,7 @@ public abstract class GenericJpaService<T, PK extends java.io.Serializable> {
 	 * @return result
 	 * @throws PersistenceException
 	 */
-	private final Object execute(JpaOperation operation) throws PersistenceException {
+	protected final Object execute(JpaOperation operation) throws PersistenceException {
 		return execute(operation, false) ;
 	}
 
@@ -68,7 +68,7 @@ public abstract class GenericJpaService<T, PK extends java.io.Serializable> {
 	 * @return result
 	 * @throws PersistenceException
 	 */
-	private final Object execute(JpaOperation operation, boolean transactional) throws PersistenceException {
+	protected final Object execute(JpaOperation operation, boolean transactional) throws PersistenceException {
 		JpaEnvironment jpaEnvironment = new JpaEnvironment( PersistenceConfig.JPA_PERSISTENCE_UNIT_NAME );
 		if ( transactional ) {
 			return jpaEnvironment.executeWithTransaction(operation) ;
