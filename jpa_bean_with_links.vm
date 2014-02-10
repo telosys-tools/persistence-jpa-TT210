@@ -14,7 +14,7 @@
 ## IF COMPOSITE PRIMARY KEY : GENERATE A JAVA CLASS FOR THIS COMPOSITE KEY
 #if ( $entity.hasCompositePrimaryKey() )
 // This Bean has a composite Primary Key  
-$generator.generate($target.entityName ,  "${entity.name}Key.java", $target.folder, "jpa_bean_pk.vm"  )
+$generator.generate($target.entityName ,  "${entity.name}EntityKey.java", $target.folder, "jpa_bean_pk.vm"  )
 #else 
 // This Bean has a basic Primary Key (not composite) 
 #end
@@ -51,9 +51,9 @@ import $import;
 $jpa.entityAnnotations(0, $entity)
 // Define named queries here
 @NamedQueries ( {
-  @NamedQuery ( name="${entity.name}.countAll", query="SELECT COUNT(x) FROM ${entity.name} x" )
+  @NamedQuery ( name="${entity.name}Entity.countAll", query="SELECT COUNT(x) FROM ${entity.name}Entity x" )
 } )
-public class $entity.name implements Serializable
+public class ${entity.name}Entity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -62,7 +62,7 @@ public class $entity.name implements Serializable
     // ENTITY PRIMARY KEY ( EMBEDDED IN AN EXTERNAL CLASS )  
     //----------------------------------------------------------------------
 	@EmbeddedId
-    private ${entity.name}Key compositePrimaryKey ;
+    private ${entity.name}EntityKey compositePrimaryKey ;
 
 #else 
     //----------------------------------------------------------------------
@@ -102,18 +102,18 @@ $jpa.fieldAnnotations(4, $field)
 ## #foreach( $link in $entity.links )
 #foreach( $link in $entity.selectedLinks )
 $jpa.linkAnnotations(4, $link, $allMappedFields)
-    private $link.formatedType(10) $link.formatedName(12);
+    private ${link.formatedType(0)} $link.formatedName(12);
 
 #end
 
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
     //----------------------------------------------------------------------
-    public ${entity.name}()
+    public ${entity.name}Entity()
     {
 		super();
 #if ( $entity.hasCompositePrimaryKey() )        
-		this.compositePrimaryKey = new ${entity.name}Key();       
+		this.compositePrimaryKey = new ${entity.name}EntityKey();       
 #end
     }
     
@@ -186,12 +186,12 @@ $jpa.linkAnnotations(4, $link, $allMappedFields)
     //----------------------------------------------------------------------
 ## #foreach( $link in $entity.links )
 #foreach( $link in $entity.selectedLinks )
-#if ( $link.setter )    public void ${link.setter}( ${link.linkType} ${link.javaName} )
+#if ( $link.setter )    public void ${link.setter}( ${link.formatedType(0)} ${link.javaName} )
     {
         this.${link.javaName} = ${link.javaName};
     }
 #end
-#if ( $link.getter )    public ${link.linkType} ${link.getter}()
+#if ( $link.getter )    public ${link.formatedType(0)} ${link.getter}()
     {
         return this.${link.javaName};
     }

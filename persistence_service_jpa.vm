@@ -4,7 +4,7 @@
  */
 ## ----------------------------------------------------------------------
 #if ( $entity.hasCompositePrimaryKey() )
-#set( $primaryKeyType = "${entity.name}Key" )
+#set( $primaryKeyType = "${entity.name}EntityKey" )
 #else 
 #set( $primaryKeyType = $entity.keyAttributes[0].wrapperType )
 #end
@@ -20,9 +20,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import $entity.fullName ;
+import ${ENTITY_PKG}.jpa.${entity.name}Entity;
 #if ( $entity.hasCompositePrimaryKey() )
-import ${entity.fullName}Key ;
+import ${ENTITY_PKG}.jpa.${entity.name}EntityKey;
 #end
 import ${ROOT_PKG}.persistence.commons.jpa.GenericJpaService;
 import ${ROOT_PKG}.persistence.commons.jpa.JpaOperation;
@@ -34,17 +34,17 @@ import ${ROOT_PKG}.persistence.services.${entity.name}Persistence;
  * @author Telosys Tools Generator
  *
  */
-public class ${entity.name}PersistenceJPA extends GenericJpaService<${entity.name}, $primaryKeyType> implements ${entity.name}Persistence {
+public class ${entity.name}PersistenceJPA extends GenericJpaService<${entity.name}Entity, $primaryKeyType> implements ${entity.name}Persistence {
 
 	/**
 	 * Constructor
 	 */
 	public ${entity.name}PersistenceJPA() {
-		super(${entity.name}.class);
+		super(${entity.name}Entity.class);
 	}
 
 	@Override
-	public ${entity.name} load( $fn.argumentsListWithType( $entity.keyAttributes ) ) {
+	public ${entity.name}Entity load( $fn.argumentsListWithType( $entity.keyAttributes ) ) {
 #if ( $entity.hasCompositePrimaryKey() )
 		// Build the composite key
 		$primaryKeyType key = new $primaryKeyType( $fn.argumentsList( $entity.keyAttributes ) );
@@ -66,7 +66,7 @@ public class ${entity.name}PersistenceJPA extends GenericJpaService<${entity.nam
 	}
 
 	@Override
-	public boolean delete(${entity.name} entity) {
+	public boolean delete(${entity.name}Entity entity) {
 		if ( entity != null ) {
 #if ( $entity.hasCompositePrimaryKey() )
 			// Build the composite key
@@ -85,7 +85,7 @@ public class ${entity.name}PersistenceJPA extends GenericJpaService<${entity.nam
 		JpaOperation operation = new JpaOperation() {
 			@Override
 			public Object exectue(EntityManager em) throws PersistenceException {
-				Query query = em.createNamedQuery("${entity.name}.countAll");
+				Query query = em.createNamedQuery("${entity.name}Entity.countAll");
 				return query.getSingleResult() ;
 			}
 		} ;

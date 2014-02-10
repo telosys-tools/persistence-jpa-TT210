@@ -10,13 +10,13 @@ import java.util.Map;
 import $import;
 #end
 
-import $entity.fullName ;
+import ${ENTITY_PKG}.jpa.${entity.name}Entity;
 
 /**
  * Basic persistence operations for entity "${entity.name}"
  * 
 #if ( $entity.hasCompositePrimaryKey() )
-#set( $primaryKeyType = "${entity.name}Key" )
+#set( $primaryKeyType = "${entity.name}EntityKey" )
  * This Bean has a composite Primary Key : $primaryKeyType
 #else 
 #set( $primaryKeyType = $entity.keyAttributes[0].type )
@@ -34,7 +34,7 @@ public interface ${entity.name}Persistence {
 	 * @param ${entity.name.toLowerCase()}
 	 * @return true if found and deleted, false if not found
 	 */
-	public boolean delete(${entity.name} ${entity.name.toLowerCase()}) ;
+	public boolean delete(${entity.name}Entity ${entity.name.toLowerCase()}) ;
 
 	/**
 	 * Deletes the entity by its Primary Key <br>
@@ -51,7 +51,7 @@ public interface ${entity.name}Persistence {
 	 * Transactional operation ( begin transaction and commit )
 	 * @param ${entity.name.toLowerCase()}
 	 */
-	public void insert(${entity.name} ${entity.name.toLowerCase()}) ;
+	public void insert(${entity.name}Entity ${entity.name.toLowerCase()}) ;
 
 	/**
 	 * Loads the entity for the given Primary Key <br>
@@ -60,20 +60,20 @@ public interface ${entity.name}Persistence {
 #end	 
 	 * @return the entity loaded (or null if not found)
 	 */
-	public ${entity.name} load($fn.argumentsListWithType( $entity.keyAttributes )) ;
+	public ${entity.name}Entity load($fn.argumentsListWithType( $entity.keyAttributes )) ;
 
 	/**
 	 * Loads ALL the entities (use with caution)
 	 * @return
 	 */
-	public List<${entity.name}> loadAll() ;
+	public List<${entity.name}Entity> loadAll() ;
 
 	/**
 	 * Loads a list of entities using the given "named query" without parameter 
 	 * @param queryName
 	 * @return
 	 */
-	public List<${entity.name}> loadByNamedQuery(String queryName) ;
+	public List<${entity.name}Entity> loadByNamedQuery(String queryName) ;
 
 	/**
 	 * Loads a list of entities using the given "named query" with parameters 
@@ -81,7 +81,7 @@ public interface ${entity.name}Persistence {
 	 * @param queryParameters
 	 * @return
 	 */
-	public List<${entity.name}> loadByNamedQuery(String queryName, Map<String, Object> queryParameters) ;
+	public List<${entity.name}Entity> loadByNamedQuery(String queryName, Map<String, Object> queryParameters) ;
 
 	/**
 	 * Saves (create or update) the given entity <br>
@@ -89,14 +89,14 @@ public interface ${entity.name}Persistence {
 	 * @param ${entity.name.toLowerCase()}
 	 * @return
 	 */
-	public ${entity.name} save(${entity.name} ${entity.name.toLowerCase()}) ;
+	public ${entity.name}Entity save(${entity.name}Entity ${entity.name.toLowerCase()}) ;
 
 	/**
 	 * Search the entities matching the given search criteria
 	 * @param criteria
 	 * @return
 	 */
-	public List<${entity.name}> search( Map<String, Object> criteria ) ;
+	public List<${entity.name}Entity> search( Map<String, Object> criteria ) ;
 
 	/**
 	 * Count all the occurrences

@@ -10,7 +10,7 @@ import java.util.Map;
 import $import;
 #end
 
-import $entity.fullName ;
+import ${ENTITY_PKG}.jpa.${entity.name}Entity;
 import ${ROOT_PKG}.persistence.commons.fake.GenericFakeService;
 import ${ROOT_PKG}.persistence.services.${entity.name}Persistence;
 
@@ -19,14 +19,14 @@ import ${ROOT_PKG}.persistence.services.${entity.name}Persistence;
  *
  * @author Telosys Tools Generator
  */
-public class ${entity.name}PersistenceFAKE extends GenericFakeService<${entity.name}> implements ${entity.name}Persistence {
+public class ${entity.name}PersistenceFAKE extends GenericFakeService<${entity.name}Entity> implements ${entity.name}Persistence {
 
 	public ${entity.name}PersistenceFAKE () {
-		super(${entity.name}.class);
+		super(${entity.name}Entity.class);
 	}
 	
-	protected ${entity.name} buildEntity(int index) {
-		${entity.name} entity = new ${entity.name}();
+	protected ${entity.name}Entity buildEntity(int index) {
+		${entity.name}Entity entity = new ${entity.name}Entity();
 		// Init fields with mock values
 #foreach( $field in $entity.getAttributesByCriteria( $const.NOT_IN_SELECTED_LINKS ) )
 #set ( $type = $field.type.toLowerCase() )
@@ -64,8 +64,8 @@ public class ${entity.name}PersistenceFAKE extends GenericFakeService<${entity.n
 	}
 	
 	
-	public boolean delete(${entity.name} entity) {
-		log("delete ( ${entity.name} : " + entity + ")" ) ;
+	public boolean delete(${entity.name}Entity entity) {
+		log("delete ( ${entity.name}Entity : " + entity + ")" ) ;
 		return true;
 	}
 
@@ -75,37 +75,37 @@ public class ${entity.name}PersistenceFAKE extends GenericFakeService<${entity.n
 		return true;
 	}
 
-	public void insert(${entity.name} entity) {
-		log("insert ( ${entity.name} : " + entity + ")" ) ;
+	public void insert(${entity.name}Entity entity) {
+		log("insert ( ${entity.name}Entity : " + entity + ")" ) ;
 	}
 
-##	public ${entity.name} load( #argumentsWithType( $entity.keyAttributes ) ) {
-	public ${entity.name} load( $fn.argumentsListWithType( $entity.keyAttributes ) ) {
+##	public ${entity.name}Entity load( #argumentsWithType( $entity.keyAttributes ) ) {
+	public ${entity.name}Entity load( $fn.argumentsListWithType( $entity.keyAttributes ) ) {
 		log("load ( PK )") ;
 		return buildEntity(1) ; 
 	}
 
-	public List<${entity.name}> loadAll() {
+	public List<${entity.name}Entity> loadAll() {
 		log("loadAll()") ;
 		return buildList(40) ;
 	}
 
-	public List<${entity.name}> loadByNamedQuery(String queryName) {
+	public List<${entity.name}Entity> loadByNamedQuery(String queryName) {
 		log("loadByNamedQuery ( '" + queryName + "' )") ;
 		return buildList(20) ;
 	}
 
-	public List<${entity.name}> loadByNamedQuery(String queryName, Map<String, Object> queryParameters) {
+	public List<${entity.name}Entity> loadByNamedQuery(String queryName, Map<String, Object> queryParameters) {
 		log("loadByNamedQuery ( '" + queryName + "', parameters )") ;
 		return buildList(10) ;
 	}
 
-	public ${entity.name} save(${entity.name} entity) {
-		log("insert ( ${entity.name} : " + entity + ")" ) ;
+	public ${entity.name}Entity save(${entity.name}Entity entity) {
+		log("insert ( ${entity.name}Entity : " + entity + ")" ) ;
 		return entity;
 	}
 
-	public List<${entity.name}> search(Map<String, Object> criteria) {
+	public List<${entity.name}Entity> search(Map<String, Object> criteria) {
 		log("search (criteria)" ) ;
 		return buildList(15) ;
 	}
