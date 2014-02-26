@@ -92,7 +92,7 @@ public class ${entity.name}PersistenceTest
 #if ( $n < 1 )
 			// This entity references the following entities : 
 #end
-			// . $link.targetEntityType
+			// . $link.targetEntitySimpleType
 #set ( $n = $n + 1 )
 #end
 #end

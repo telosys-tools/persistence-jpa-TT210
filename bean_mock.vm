@@ -84,7 +84,7 @@ public class ${entity.name}EntityMock {
 #end
 		// Init Link fields (if any)
 #foreach( $link in $entity.selectedLinks )
-		// ${link.setter}( TODO ) ; // ${link.linkType} 
+		// ${link.setter}( TODO ) ; // ${link.fieldType} 
 #end
 		return entity ;
 	}
