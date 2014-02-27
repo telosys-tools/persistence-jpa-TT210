@@ -29,7 +29,7 @@ public class ${entity.name}PersistenceFAKE extends GenericFakeService<${entity.n
 		${entity.name}Entity entity = new ${entity.name}Entity();
 		// Init fields with mock values
 #foreach( $field in $entity.getAttributesByCriteria( $const.NOT_IN_SELECTED_LINKS ) )
-#set ( $type = $field.type.toLowerCase() )
+#set ( $type = $fn.uncapitalize($field.type) )
 #if     ( $type == "byte" )
 		entity.${field.setter}( nextByte() ) ;
 #elseif ( $type == "short" )

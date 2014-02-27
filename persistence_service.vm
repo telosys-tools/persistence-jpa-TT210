@@ -31,10 +31,10 @@ public interface ${entity.name}Persistence {
 	/**
 	 * Deletes the given entity <br>
 	 * Transactional operation ( begin transaction and commit )
-	 * @param ${entity.name.toLowerCase()}
+	 * @param ${fn.uncapitalize($entity.name)}
 	 * @return true if found and deleted, false if not found
 	 */
-	public boolean delete(${entity.name}Entity ${entity.name.toLowerCase()}) ;
+	public boolean delete(${entity.name}Entity ${fn.uncapitalize($entity.name)}) ;
 
 	/**
 	 * Deletes the entity by its Primary Key <br>
@@ -49,9 +49,9 @@ public interface ${entity.name}Persistence {
 	/**
 	 * Inserts the given entity and commit <br>
 	 * Transactional operation ( begin transaction and commit )
-	 * @param ${entity.name.toLowerCase()}
+	 * @param ${fn.uncapitalize($entity.name)}
 	 */
-	public void insert(${entity.name}Entity ${entity.name.toLowerCase()}) ;
+	public void insert(${entity.name}Entity ${fn.uncapitalize($entity.name)}) ;
 
 	/**
 	 * Loads the entity for the given Primary Key <br>
@@ -86,10 +86,10 @@ public interface ${entity.name}Persistence {
 	/**
 	 * Saves (create or update) the given entity <br>
 	 * Transactional operation ( begin transaction and commit )
-	 * @param ${entity.name.toLowerCase()}
+	 * @param ${fn.uncapitalize($entity.name)}
 	 * @return
 	 */
-	public ${entity.name}Entity save(${entity.name}Entity ${entity.name.toLowerCase()}) ;
+	public ${entity.name}Entity save(${entity.name}Entity ${fn.uncapitalize($entity.name)}) ;
 
 	/**
 	 * Search the entities matching the given search criteria
