@@ -26,8 +26,7 @@ import $import;
  *
  */
  @Embeddable
-public class $currentClassName implements Serializable
-{
+public class $currentClassName implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //----------------------------------------------------------------------
