@@ -67,7 +67,7 @@ public class PersistenceServiceProvider {
 			try {
 				 clazz = Class.forName(serviceClassName) ;
 			} catch (ClassNotFoundException e) {
-				throw new RuntimeException("Cannot load class " + serviceClassName );
+				throw new RuntimeException("Cannot load class " + serviceClassName, e);
 			}
 
 			if ( serviceInterface.isAssignableFrom(clazz) ) {
@@ -76,9 +76,9 @@ public class PersistenceServiceProvider {
 				try {
 					instance = clazz.newInstance();
 				} catch (InstantiationException e) {
-					throw new RuntimeException("Cannot create instance for class " + serviceClassName + " (InstantiationException)");
+					throw new RuntimeException("Cannot create instance for class " + serviceClassName + " (InstantiationException)", e);
 				} catch (IllegalAccessException e) {
-					throw new RuntimeException("Cannot create instance for class " + serviceClassName + " (IllegalAccessException)");
+					throw new RuntimeException("Cannot create instance for class " + serviceClassName + " (IllegalAccessException)", e);
 				}
 				return (T) instance ;
 				
