@@ -13,29 +13,81 @@ import javax.persistence.PersistenceException;
 /**
  * JPA environment for JPA operations execution <br>
  * Provided by Telosys Tools for JPA testing
- * 
  */
 public class JpaEnvironment {
-
-	private final String persistenceUnitName ; 
-	
-	private final EntityManagerFactory emf ; 
 	
 	/**
-	 * Constructor 
-	 * @param persistenceUnitName the name of the JPA persistence unit to be used
+	 * Singleton instance.
 	 */
-	public JpaEnvironment(String persistenceUnitName ) {
-		super();
-		this.persistenceUnitName = persistenceUnitName ;
-		this.emf = Persistence.createEntityManagerFactory(persistenceUnitName);
-	}
+    private static volatile JpaEnvironment instance = null;
 
+    /**
+     * JPA persistence unit name.
+     */
+	private String persistenceUnitName ;
+	
+	/**
+	 * JPA Entity manager factory.
+	 */
+	private EntityManagerFactory emf ; 
+	
+    /**
+     * Private constructor.
+     */
+    private JpaEnvironment() {
+        super();
+    }
 
+    /**
+     * Return JpaEnvironment instance.
+     * @return Return JpaEnvironment instance.
+     */
+    public final static JpaEnvironment getInstance() {
+        if (JpaEnvironment.instance == null) {
+           synchronized(JpaEnvironment.class) {
+             if (JpaEnvironment.instance == null) {
+            	 JpaEnvironment.instance = new JpaEnvironment();
+             }
+           }
+        }
+        return JpaEnvironment.instance;
+    }
+    
+    /**
+     * Load JPA configuration if not already loaded.
+     * @param persistenceUnitName JPA persistence unit name
+     */
+    public void initialize(String persistenceUnitName) {
+    	if(this.emf == null) {
+    		this.createEntityManagerFactory(persistenceUnitName);
+    	}
+    }
+    
+    /**
+     * Load JPA configuration with synchronization between threads.
+     * @param persistenceUnitName JPA persistence unit name
+     */
+    private synchronized void createEntityManagerFactory(String persistenceUnitName) {
+    	if(this.emf == null) {
+			this.persistenceUnitName = persistenceUnitName ;
+			this.emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+    	}
+    }
+
+    /**
+     * Return JPA persistence unit name.
+     * @return JPA persistence unit name
+     */
 	public final String getPersistenceUnitName() {
 		return this.persistenceUnitName ;
 	}
 	
+	/**
+	 * Execute this JPA operation in a transaction which will be closed at the end of this method.
+	 * @param operation JPA operation
+	 * @return Results
+	 * @throws PersistenceException Error
+	 */
 	public final Object executeWithTransaction(JpaOperation operation) throws PersistenceException {
 		
 		Object result = null ;
@@ -66,6 +118,12 @@ public class JpaEnvironment {
 		return result ;
 	}
 
+	/**
+	 * Execute this JPA operation without transaction.
+	 * @param operation JPA operation
+	 * @return Results
+	 * @throws PersistenceException Error
+	 */
 	public final Object executeWithoutTransaction(JpaOperation operation) throws PersistenceException {
 		
 		Object result = null ;
@@ -82,4 +140,5 @@ public class JpaEnvironment {
 		return result ;
 	}
 	
+    
 }
