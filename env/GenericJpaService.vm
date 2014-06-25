@@ -69,7 +69,11 @@ public abstract class GenericJpaService<T, PK extends java.io.Serializable> {
 	 * @throws PersistenceException
 	 */
 	protected final Object execute(JpaOperation operation, boolean transactional) throws PersistenceException {
-		JpaEnvironment jpaEnvironment = new JpaEnvironment( PersistenceConfig.JPA_PERSISTENCE_UNIT_NAME );
+		// Get singleton instance of JpaEnvironment which contains the JPA EntityManagerFactory
+		JpaEnvironment jpaEnvironment = JpaEnvironment.getInstance();
+		// Initialize the JPA conficguration and create the EntityManagerFactory
+		jpaEnvironment.initialize(PersistenceConfig.JPA_PERSISTENCE_UNIT_NAME);
+				
 		if ( transactional ) {
 			return jpaEnvironment.executeWithTransaction(operation) ;
 		}
